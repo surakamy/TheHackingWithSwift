@@ -20,8 +20,6 @@ class ViewController: UITableViewController {
         
         title = "Storm Viewer"
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareAppTapped))
-
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -44,11 +42,5 @@ class ViewController: UITableViewController {
         }
     }
 
-
-    @objc func shareAppTapped() {
-        let vc = UIActivityViewController(activityItems: ["Hi there, this is Strom Viewer."], applicationActivities: [])
-        vc.navigationItem.rightBarButtonItem = navigationItem.rightBarButtonItem
-        present(vc, animated: true)
-    }
 }
 

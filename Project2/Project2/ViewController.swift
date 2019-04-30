@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(showScores))
         scoresButton = navigationItem.rightBarButtonItem
 
         askQuestion()
@@ -40,11 +40,15 @@ class ViewController: UIViewController {
     let questionsInRow = 10
     var correctAnswer = 0
     var questionsAsked = 0
+
+    func messageScore() -> String {
+        return "Your score is \(score)."
+    }
     func askQuestion(action: UIAlertAction! = nil) {
         self.scoresButton.title = "\(score) / \(questionsInRow)"
 
         if questionsAsked == questionsInRow {
-            let ac = UIAlertController(title: "Game over", message: "Your score is \(score).", preferredStyle: .actionSheet)
+            let ac = UIAlertController(title: "Game over", message: messageScore(), preferredStyle: .actionSheet)
             ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: askQuestion))
             present(ac, animated: true)
 
@@ -53,8 +57,6 @@ class ViewController: UIViewController {
 
             return
         }
-
-        questionsAsked += 1
 
         countries.shuffle()
 
@@ -73,17 +75,25 @@ class ViewController: UIViewController {
         if sender.tag == correctAnswer {
             score += 1
             title =  "Correct"
-            message = "Your score is \(score)."
+            message = messageScore()
         } else {
             score -= 1
             title =  "Wrong"
             message = "Wrong! That’s the flag of \(countries[correctAnswer].uppercased())"
         }
 
+        questionsAsked += 1
+
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
         present(ac, animated: true)
     }
 
+    @objc func showScores() {
+        let message = messageScore() + "\n Question(s) \(questionsAsked) of \(questionsInRow)"
+        let ac = UIAlertController(title: "Scores", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
+    }
 }
 
