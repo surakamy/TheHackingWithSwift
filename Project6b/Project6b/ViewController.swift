@@ -13,13 +13,81 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(generateRandomViews))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(generateRandomViewsAnchors))
         view.addGestureRecognizer(tap)
-        generateRandomViews()
     }
 
 
-    @objc func generateRandomViews() {
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        generateRandomViewsAnchors()
+    }
+
+
+    @objc func generateRandomViewsAnchors() {
+        view.subviews.forEach { view in view.removeFromSuperview() }
+        let labels = [
+            UILabel(),
+            UILabel(),
+            UILabel(),
+            UILabel(),
+            UILabel()
+        ]
+
+        let titlesForLabels = [
+            "THESE",
+            "ARE",
+            "SOME",
+            "AWESOME",
+            "LABELS"
+        ]
+
+        let colorsForLabels = [
+            UIColor.random(),
+            UIColor.random(),
+            UIColor.random(),
+            UIColor.random(),
+            UIColor.random()
+        ]
+
+
+        assert(titlesForLabels.count == colorsForLabels.count)
+        assert(labels.count == titlesForLabels.count)
+
+        for (index, label) in labels.enumerated() {
+            label.backgroundColor = colorsForLabels[index]
+            label.text = titlesForLabels[index]
+            label.layer.cornerRadius = 20.0
+            label.clipsToBounds = true
+            label.textAlignment = .center
+            label.sizeToFit()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(label)
+        }
+
+
+        var previous: UILabel?
+        for label in labels {
+            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            //label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            //label.heightAnchor.constraint(equalToConstant: 80).isActive = true
+
+            label.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2, constant:  -10).isActive = true
+
+            if let prev = previous {
+                label.topAnchor.constraint(equalTo: prev.bottomAnchor, constant: 10).isActive = true
+            } else {
+                label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            }
+
+            previous = label
+        }
+
+    }
+
+
+    @objc func generateRandomViewsVLF() {
         view.subviews.forEach { view in view.removeFromSuperview() }
         let labels = [
             "label0" : UILabel(),
@@ -97,3 +165,14 @@ class ViewController: UIViewController {
 
 }
 
+
+extension UIColor {
+    static func random() -> UIColor {
+        return UIColor(
+            displayP3Red: CGFloat.random(in: 0...1),
+            green: CGFloat.random(in: 0...1),
+            blue: CGFloat.random(in: 0...1),
+            alpha: 1
+        )
+    }
+}
