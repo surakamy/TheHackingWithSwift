@@ -23,7 +23,12 @@ struct ShoppingList {
         return products.isEmpty
     }
 
-func product(at: Int) -> Item {
+    var descriptionInShort: String {
+        let blob = self.products.map { "\($0.name) [\($0.amount)]" }.joined(separator: ", ")
+        return "My shopping list\n\(blob)"
+    }
+
+    func product(at: Int) -> Item {
         return products[at]
     }
 

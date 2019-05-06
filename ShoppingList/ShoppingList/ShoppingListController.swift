@@ -24,6 +24,12 @@ class ShoppingListController: UITableViewController {
         footerCell.button.addTarget(self, action: #selector(appendTappend(_:)), for: .touchUpInside)
     }
 
+    @IBAction func shareTapped(_ sender: Any) {
+        let textToShare = list.descriptionInShort
+        let ac = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
+        present(ac, animated: true, completion: nil)
+    }
+
     @IBAction func clearAllTappend(_ sender: Any) {
         let count = list.count
 

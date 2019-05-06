@@ -85,9 +85,10 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem systemItem="trash" id="5xD-sr-0Ji">
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="UBI-Up-pF4"/>
+                        <barButtonItem systemItem="action" id="laY-m4-SDX">
                             <connections>
-                                <action selector="clearAllTappend:" destination="UXa-9C-cbV" id="g2P-oq-UHd"/>
+                                <action selector="shareTapped:" destination="UXa-9C-cbV" id="nLI-PP-zgV"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="eLv-nh-4PJ"/>
@@ -96,9 +97,15 @@
                                 <action selector="appendTappend:" destination="UXa-9C-cbV" id="Cxg-kW-tI8"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="J5e-Ma-KHP"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="ZAI-eJ-TRK">
-                        <barButtonItem key="rightBarButtonItem" title="Shopping List App" id="Qwe-7R-ABj">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="5xD-sr-0Ji">
+                            <connections>
+                                <action selector="clearAllTappend:" destination="UXa-9C-cbV" id="g2P-oq-UHd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="About" id="Qwe-7R-ABj">
                             <connections>
                                 <segue destination="bva-gd-xzv" kind="show" id="VeE-DY-Hit"/>
                             </connections>
