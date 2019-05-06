@@ -120,7 +120,7 @@
                                 <constraint firstAttribute="height" constant="222" id="3P1-ye-h1u"/>
                                 <constraint firstAttribute="width" constant="240" id="yer-Ja-DFe"/>
                             </constraints>
-                            <state key="normal" title="No products yet. Add some." image="shopping-basket"/>
+                            <state key="normal" image="shopping-basket"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

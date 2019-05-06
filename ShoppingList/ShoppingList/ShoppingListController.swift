@@ -18,6 +18,10 @@ class ShoppingListController: UITableViewController {
         title = "Shopping list"
 
         tableView.estimatedSectionFooterHeight = 300.0
+
+        tableView.backgroundColor = UIColor(named: "base")
+
+        footerCell.button.addTarget(self, action: #selector(appendTappend(_:)), for: .touchUpInside)
     }
 
     @IBAction func clearAllTappend(_ sender: Any) {
@@ -65,17 +69,14 @@ class ShoppingListController: UITableViewController {
     }
 
     // MARK - TableView
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     @IBOutlet var footerCell: ShoppingFooterCell!
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return list.isEmpty ? footerCell : nil
+        return footerCell
     }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return  list.isEmpty ? view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom : 0
+        footerCell.isHidden = !list.isEmpty
+        return  list.isEmpty ? view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom : 0.01
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
