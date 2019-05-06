@@ -94,7 +94,9 @@ class ShoppingListController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as? ShoppingItemCell else { fatalError("No cell") }
         let product = list.product(at: indexPath.row)
         cell.load(product)
+        cell.isEvenRow = list.count % 2 != 0
         return cell
     }
+
 }
 

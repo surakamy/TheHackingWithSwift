@@ -23,7 +23,7 @@ struct ShoppingList {
         return products.isEmpty
     }
 
-    func product(at: Int) -> Item {
+func product(at: Int) -> Item {
         return products[at]
     }
 
