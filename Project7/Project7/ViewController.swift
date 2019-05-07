@@ -8,12 +8,21 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, UISearchBarDelegate {
 
     var petitions = [Petition]()
+    var petitionsToDisplay = [Petition]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        themeNavigationBar()
 
         let tab: UITabBarItem! = navigationController?.tabBarItem
         let category = tab.tag == 0 ? PetitionCategory.recent : PetitionCategory.top
@@ -31,20 +40,36 @@ class ViewController: UITableViewController {
         }
     }
 
+    //MARK -- SearchBar
+    var highlightedText: String?
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        highlightedText = searchText
+        guard !searchText.isEmpty else {
+            petitionsToDisplay = petitions
+            return
+        }
+        petitionsToDisplay = petitions
+            .filter { petition in
+                petition.title.range(of: searchText, options: .caseInsensitive) != nil ||
+                petition.body.range(of: searchText, options: .caseInsensitive) != nil
+            }
+    }
+
     //MARK -- Table
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return petitions.count
+        return petitionsToDisplay.count
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return petitions.isEmpty ? "Loading petitions..." : nil
+        return petitionsToDisplay.isEmpty ? "Loading petitions..." : nil
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let petition = petitions[indexPath.row]
-        cell.textLabel?.text = petition.title
-        cell.detailTextLabel?.text = petition.body
+        let petition = petitionsToDisplay[indexPath.row]
+        cell.textLabel?.attributedText = getHighlighted(for: petition.title, highlights: highlightedText)
+        cell.detailTextLabel?.attributedText = getHighlighted(for: petition.body, highlights: highlightedText)
         return cell
     }
 
@@ -70,7 +95,8 @@ class ViewController: UITableViewController {
             guard let nextController = segue.destination as? PetitionDetailsControllerViewController else { fatalError("Petition seque destination controller is not of \(PetitionDetailsControllerViewController.self)")}
 
             guard let indexPath = accessoryIndexPathSelected else { return }
-            nextController.petition = petitions[indexPath.row]
+            nextController.petition = petitionsToDisplay[indexPath.row]
+            nextController.highlight = highlightedText
             accessoryIndexPathSelected = nil
         }
     }
@@ -84,9 +110,7 @@ class ViewController: UITableViewController {
 
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: data) {
             petitions = jsonPetitions.results
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            petitionsToDisplay = petitions
         }
     }
 
@@ -107,5 +131,29 @@ class ViewController: UITableViewController {
         present(ac, animated: true, completion: nil)
     }
 
-}
 
+    // Helpers
+    fileprivate func themeNavigationBar() {
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+
+    let highlightedAttrs: [NSAttributedString.Key : Any] = [
+        .backgroundColor : UIColor(named: "tint")!,
+        .foregroundColor : UIColor.white,
+        .font : UIFont.boldSystemFont(ofSize: 17)
+    ]
+
+    fileprivate func getHighlighted(for text: String, highlights: String? = nil) -> NSAttributedString {
+
+        if let highlights = highlights {
+            let attributedString = NSMutableAttributedString(string: text)
+            if let range = text.range(of: highlights, options: .caseInsensitive) {
+                attributedString.addAttributes(highlightedAttrs, range: NSRange(range, in: text))
+
+            }
+            return attributedString
+        }
+
+        return NSAttributedString(string: text)
+    }
+}
