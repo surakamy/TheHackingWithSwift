@@ -8,6 +8,12 @@
 
 import UIKit
 
+fileprivate extension UIColor {
+    static var tint: UIColor { return #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1) }
+    static var light: UIColor { return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) }
+    static var grayish: UIColor { return #colorLiteral(red: 0.9568627451, green: 0.873072545, blue: 0.8420772661, alpha: 1) }
+}
+
 class ViewController: UIViewController {
 
     var cluesLabel: UILabel!
@@ -18,21 +24,18 @@ class ViewController: UIViewController {
 
 
     override func loadView() {
-        let tint = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        let light = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-
         view = UIView()
-        view.tintColor = tint
-        view.backgroundColor = light
+        view.tintColor = UIColor.tint
+        view.backgroundColor = UIColor.light
 
         scoreLabel = ScoreLabel()
         scoreLabel.text = "Score: 1000"
         scoreLabel.textAlignment = .center
-        scoreLabel.backgroundColor = tint
-        scoreLabel.textColor = light
+        scoreLabel.backgroundColor = UIColor.tint
+        scoreLabel.textColor = UIColor.light
         scoreLabel.font = UIFont.systemFont(ofSize: 20.0, weight: .heavy)
-        scoreLabel.clipsToBounds = true
         scoreLabel.padding = 10.0
+        scoreLabel.clipsToBounds = true
         scoreLabel.layer.cornerRadius = 20.0
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scoreLabel)
@@ -65,13 +68,21 @@ class ViewController: UIViewController {
 
 
         let submit = UIButton(type: .system)
+        submit.backgroundColor = UIColor.grayish
+        submit.contentEdgeInsets = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
         submit.setTitle("SUBMIT", for: .normal)
         submit.translatesAutoresizingMaskIntoConstraints = false
+        submit.clipsToBounds = true
+        submit.layer.cornerRadius = 10.0
         view.addSubview(submit)
 
         let clear = UIButton(type: .system)
+        clear.backgroundColor = UIColor.grayish
+        clear.contentEdgeInsets = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
         clear.setTitle("CLEAR", for: .normal)
         clear.translatesAutoresizingMaskIntoConstraints = false
+        clear.clipsToBounds = true
+        clear.layer.cornerRadius = 10.0
         view.addSubview(clear)
 
         let buttonsView = UIView()
