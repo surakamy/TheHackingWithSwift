@@ -24,6 +24,12 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpw-53-oxV">
                                 <rect key="frame" x="119.5" y="388" width="50" height="120.5"/>
@@ -65,7 +71,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="K40-nm-j6O">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="80" translatesAutoresizingMaskIntoConstraints="NO" id="K40-nm-j6O">
                                                 <rect key="frame" x="-2" y="22.5" width="154" height="31"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="150" id="0q1-4F-3BX"/>
@@ -85,7 +91,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="32T-Qu-jVB">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="80" translatesAutoresizingMaskIntoConstraints="NO" id="32T-Qu-jVB">
                                                 <rect key="frame" x="-2" y="22.5" width="142" height="31"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="138" id="J87-wL-c1t"/>
@@ -104,18 +110,20 @@
                             <constraint firstItem="4jL-cf-g9w" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3WK-Nh-Szq"/>
                             <constraint firstItem="4jL-cf-g9w" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="C1S-5O-VT6"/>
                             <constraint firstItem="dI4-Rp-dAX" firstAttribute="top" secondItem="eAe-5M-xas" secondAttribute="top" id="CuV-yo-rEW"/>
-                            <constraint firstItem="4jL-cf-g9w" firstAttribute="leading" secondItem="hpw-53-oxV" secondAttribute="trailing" id="D4r-9X-sHh"/>
+                            <constraint firstItem="4jL-cf-g9w" firstAttribute="leading" secondItem="hpw-53-oxV" secondAttribute="trailing" priority="250" id="D4r-9X-sHh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LBN-SA-BOb" secondAttribute="bottom" id="JCq-ar-JPY"/>
-                            <constraint firstItem="dI4-Rp-dAX" firstAttribute="leading" secondItem="4jL-cf-g9w" secondAttribute="trailing" id="PxP-uc-7WM"/>
+                            <constraint firstItem="dI4-Rp-dAX" firstAttribute="leading" secondItem="4jL-cf-g9w" secondAttribute="trailing" priority="250" id="PxP-uc-7WM"/>
                             <constraint firstItem="RF8-Pd-l8I" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YX3-xF-n2j"/>
                             <constraint firstItem="eAe-5M-xas" firstAttribute="leading" secondItem="hpw-53-oxV" secondAttribute="leading" id="eq7-vn-EQd"/>
                             <constraint firstItem="hpw-53-oxV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="gaY-xT-c4q"/>
                             <constraint firstItem="LBN-SA-BOb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iBC-Yn-3WN"/>
                             <constraint firstItem="eAe-5M-xas" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lCg-BK-5PT"/>
+                            <constraint firstItem="4jL-cf-g9w" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="-10" id="lKH-yu-cCe"/>
                             <constraint firstItem="RF8-Pd-l8I" firstAttribute="top" secondItem="4jL-cf-g9w" secondAttribute="bottom" id="mby-sv-JC2"/>
                             <constraint firstItem="dI4-Rp-dAX" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="mkc-Y4-1i1"/>
                             <constraint firstItem="RF8-Pd-l8I" firstAttribute="leading" secondItem="hpw-53-oxV" secondAttribute="leading" id="qc8-E7-tcs"/>
                             <constraint firstItem="4jL-cf-g9w" firstAttribute="top" secondItem="eAe-5M-xas" secondAttribute="bottom" id="sRd-iN-HXE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4jL-cf-g9w" secondAttribute="trailing" constant="-10" id="xvl-4w-w9b"/>
                             <constraint firstItem="hpw-53-oxV" firstAttribute="top" secondItem="eAe-5M-xas" secondAttribute="top" id="ydN-08-oe8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

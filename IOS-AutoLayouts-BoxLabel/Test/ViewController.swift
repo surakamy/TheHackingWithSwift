@@ -17,26 +17,29 @@ class ViewController: UIViewController {
             return
         }
         sut.padding = CGFloat(slider.value)
-        sut.invalidateIntrinsicContentSize()
     }
     @IBAction func changedMargin(_ sender: Any) {
         guard let slider = sender as? UISlider else {
             return
         }
         sut.margin = CGFloat(slider.value)
-        sut.invalidateIntrinsicContentSize()
     }
 
 }
 
-
-
 import UIKit
 
 @IBDesignable
+/// Label which has CSS Box model properties.
 class BoxLabel: UILabel {
-    @IBInspectable var padding: CGFloat = 0
-    @IBInspectable var margin: CGFloat = 0
+    /// Padding property of Box model.
+    @IBInspectable var padding: CGFloat = 0 {
+        didSet { invalidateIntrinsicContentSize() }
+    }
+    /// Margin property of Box model.
+    @IBInspectable var margin: CGFloat = 0 {
+        didSet { invalidateIntrinsicContentSize() }
+    }
 
     override var alignmentRectInsets: UIEdgeInsets {
         return UIEdgeInsets(top: -margin, left: -margin, bottom: -margin, right: -margin)
@@ -47,6 +50,13 @@ class BoxLabel: UILabel {
 }
 
 extension CGRect {
+
+    /// Modifies CGSize by adding padding.
+    ///
+    /// - Parameters:
+    ///   - size: Original size
+    ///   - padding: Value of padding
+    /// - Returns: A new size with padding.
     static func padded(size: CGSize, padding: CGFloat = 0) -> CGSize {
         return CGRect(origin: .zero, size: size)
             .insetBy(dx: -padding, dy: -padding)
