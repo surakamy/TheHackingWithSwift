@@ -179,7 +179,6 @@ class ViewController: UIViewController {
     @objc func submitTapped(_ sender: UIButton) {
         guard let answerText = currentAnswer.text else { return }
         if let position = solutions.firstIndex(of: answerText) {
-            activatedButtons.removeAll()
 
             var splitAnswers = answersLabel.text?.components(separatedBy: "\n")
             splitAnswers?[position] = answerText
@@ -188,7 +187,7 @@ class ViewController: UIViewController {
             currentAnswer.text = ""
             score += 1
 
-            if score % 7 == 0 {
+            if score % 1 == 0 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
@@ -213,8 +212,12 @@ class ViewController: UIViewController {
     }
 
     func levelUp(action: UIAlertAction) {
-        currentAnswer.backgroundColor = UIColor.tint
-        currentAnswer.textColor = UIColor.light
+        currentAnswer.backgroundColor = view.backgroundColor
+        currentAnswer.textColor = UIColor.darkText
+        clearTapped(nil)
+
+        level += 1
+        loadLevel()
     }
 
     func tryAgain(action: UIAlertAction) {
@@ -253,8 +256,12 @@ class ViewController: UIViewController {
 
         letterBits.shuffle()
         for (bits, button) in zip(letterBits, letterButtons) {
-            button.setTitle(bits, for: .normal)
+            UIView.performWithoutAnimation {
+                button.setTitle(bits, for: .normal)
+                button.layoutIfNeeded()
+            }
         }
+
     }
 
 }
