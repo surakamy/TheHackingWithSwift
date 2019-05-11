@@ -20,15 +20,22 @@ class ViewController: UIViewController {
     var answersLabel: UILabel!
     var currentAnswer: UITextField!
     var scoreLabel: ScoreLabel!
+    var buttonsView: UIView!
     var letterButtons = [UIButton]()
-
     var activatedButtons = [UIButton]()
     var score = 0 {
         didSet {
-            scoreLabel.text = "Score: \(score)"
+            scoreLabel.text = self.scoreDetailsFormatter()
+        }
+    }
+    let numberOfTries = 3
+    var lives = 0 {
+        didSet {
+            scoreLabel.text = self.scoreDetailsFormatter()
         }
     }
     var level = 1
+    var answers = 0
     var solutions = [String]()
 
 
@@ -38,7 +45,7 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor.light
 
         scoreLabel = ScoreLabel()
-        scoreLabel.text = "Score: 0"
+        scoreLabel.text = scoreDetailsFormatter()
         scoreLabel.textAlignment = .center
         scoreLabel.backgroundColor = UIColor.tint
         scoreLabel.textColor = UIColor.light
@@ -97,7 +104,7 @@ class ViewController: UIViewController {
         clear.layer.cornerRadius = 10.0
         view.addSubview(clear)
 
-        let buttonsView = UIView()
+        buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView)
 
@@ -178,6 +185,7 @@ class ViewController: UIViewController {
 
     @objc func submitTapped(_ sender: UIButton) {
         guard let answerText = currentAnswer.text else { return }
+
         if let position = solutions.firstIndex(of: answerText) {
 
             var splitAnswers = answersLabel.text?.components(separatedBy: "\n")
@@ -186,13 +194,24 @@ class ViewController: UIViewController {
 
             currentAnswer.text = ""
             score += 1
+            answers += 1
+            activatedButtons.removeAll()
 
-            if score % 1 == 0 {
+            if answers % 7 == 0 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
         } else {
+            score = max(0, score-1)
+            lives -= 1
+
+            if lives == 0 {
+                let ac = UIAlertController(title: "Game Over", message: "Are you ready to start again?", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: replay))
+                present(ac, animated: true)
+            }
+
             currentAnswer.backgroundColor = UIColor.tint
             currentAnswer.textColor = UIColor.light
 
@@ -211,6 +230,14 @@ class ViewController: UIViewController {
         activatedButtons.removeAll()
     }
 
+    func replay(action: UIAlertAction) {
+        currentAnswer.backgroundColor = view.backgroundColor
+        currentAnswer.textColor = UIColor.darkText
+        clearTapped(nil)
+
+        loadLevel()
+    }
+
     func levelUp(action: UIAlertAction) {
         currentAnswer.backgroundColor = view.backgroundColor
         currentAnswer.textColor = UIColor.darkText
@@ -227,6 +254,9 @@ class ViewController: UIViewController {
     }
 
     func loadLevel() {
+        lives = numberOfTries
+        answers = 0
+
         var clueString = ""
         var solutionString = ""
         var letterBits = [String]()
@@ -255,15 +285,22 @@ class ViewController: UIViewController {
         answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
 
         letterBits.shuffle()
-        for (bits, button) in zip(letterBits, letterButtons) {
-            UIView.performWithoutAnimation {
+        UIView.performWithoutAnimation {
+            for (bits, button) in zip(letterBits, letterButtons) {
+                button.isHidden = false
                 button.setTitle(bits, for: .normal)
-                button.layoutIfNeeded()
             }
+            buttonsView.layoutIfNeeded()
         }
-
     }
 
+    func scoreDetailsFormatter() -> String {
+        return """
+        Score: \(score) \
+              \
+        Lives: \(String(repeating: "🐱", count: lives))\(String(repeating: "🕸", count: numberOfTries - lives))
+        """
+    }
 }
 
 
