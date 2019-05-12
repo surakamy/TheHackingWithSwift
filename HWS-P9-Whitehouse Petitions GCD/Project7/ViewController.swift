@@ -49,11 +49,14 @@ class ViewController: UITableViewController, UISearchBarDelegate {
             petitionsToDisplay = petitions
             return
         }
-        petitionsToDisplay = petitions
-            .filter { petition in
-                petition.title.range(of: searchText, options: .caseInsensitive) != nil ||
-                petition.body.range(of: searchText, options: .caseInsensitive) != nil
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            self.petitionsToDisplay = self.petitions
+                .filter { petition in
+                    petition.title.range(of: searchText, options: .caseInsensitive) != nil ||
+                        petition.body.range(of: searchText, options: .caseInsensitive) != nil
             }
+        }
     }
 
     //MARK -- Table
