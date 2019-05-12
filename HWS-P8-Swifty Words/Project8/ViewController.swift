@@ -261,36 +261,42 @@ class ViewController: UIViewController {
         var solutionString = ""
         var letterBits = [String]()
 
-        if let levelContents = Bundle.main.loadContentOf(level: level) {
-            let lines = levelContents.components(separatedBy: "\n")
-            for (index, line) in lines.enumerated() {
-                let parts = line.components(separatedBy: ":")
-                let answer = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                let clue = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            if let levelContents = Bundle.main.loadContentOf(level: self.level) {
+                let lines = levelContents.components(separatedBy: "\n")
+                for (index, line) in lines.enumerated() {
+                    let parts = line.components(separatedBy: ":")
+                    let answer = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                    let clue = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
 
-                clueString += "\(index + 1). \(clue)\n"
+                    clueString += "\(index + 1). \(clue)\n"
 
-                let solutionWord = answer.replacingOccurrences(of: "|", with: "")
-                solutionString += "\(solutionWord.count) letters\n"
-                solutions.append(solutionWord)
+                    let solutionWord = answer.replacingOccurrences(of: "|", with: "")
+                    solutionString += "\(solutionWord.count) letters\n"
+                    self.solutions.append(solutionWord)
 
 
-                let bits = answer.components(separatedBy: "|")
-                letterBits += bits
+                    let bits = answer.components(separatedBy: "|")
+                    letterBits += bits
+                }
             }
-        }
 
+            letterBits.shuffle()
 
-        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
-        answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        letterBits.shuffle()
-        UIView.performWithoutAnimation {
-            for (bits, button) in zip(letterBits, letterButtons) {
-                button.isHidden = false
-                button.setTitle(bits, for: .normal)
+                UIView.performWithoutAnimation {
+                    for (bits, button) in zip(letterBits, self.letterButtons) {
+                        button.isHidden = false
+                        button.setTitle(bits, for: .normal)
+                    }
+                    self.buttonsView.layoutIfNeeded()
+                }
             }
-            buttonsView.layoutIfNeeded()
         }
     }
 
