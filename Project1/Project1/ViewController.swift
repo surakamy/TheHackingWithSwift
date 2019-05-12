@@ -17,13 +17,24 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "Storm Viewer"
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareAppTapped))
 
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        DispatchQueue
+            .global(qos: .userInitiated)
+            .asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.model.loadPictures { [weak self] in
+                    self?.tableView.reloadData()
+                }
+        }
     }
+
+    // MARK: Reload
+
 
     // MARK: TableView Delegate
 
@@ -46,6 +57,7 @@ class ViewController: UITableViewController {
 
 
     @objc func shareAppTapped() {
+
         let vc = UIActivityViewController(activityItems: ["Hi there, this is Strom Viewer."], applicationActivities: [])
         vc.navigationItem.rightBarButtonItem = navigationItem.rightBarButtonItem
         present(vc, animated: true)

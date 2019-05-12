@@ -8,21 +8,29 @@
 
 import UIKit
 
-
-struct PictureFilesProvider {
+class PictureFilesProvider {
     var byCriterion = { (value: String) in return value.hasPrefix("nssl") }
-
-    var files: [String]
+    var files: [String] = []
 
     init(_ filter: ((String)-> Bool)? = nil) {
         if let filter = filter {
             self.byCriterion = filter
         }
+    }
 
-        let fm = FileManager.default
-        let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
-        files = items.filter(byCriterion).sorted()
+    func loadPictures(after completion: @escaping (() -> Void)) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+
+            let fm = FileManager.default
+            let path = Bundle.main.resourcePath!
+            let items = try! fm.contentsOfDirectory(atPath: path)
+            self.files = items.filter(self.byCriterion).sorted()
+
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
     }
 
     func pictureViewModel(at index: Int) -> PictureViewModel? {
