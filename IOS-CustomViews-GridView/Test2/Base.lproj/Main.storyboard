@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Test2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPP-hj-r4A" customClass="GridView" customModule="Test2" customModuleProvider="target">
+                                <rect key="frame" x="10" y="44" width="394" height="618"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="bbU-kG-vLq">
+                                <rect key="frame" x="18" y="769" width="166" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="162" id="t3k-26-uF1"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="rebuild:" destination="BYZ-38-t0r" eventType="valueChanged" id="dnb-HW-eIw"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cols &amp; Rows:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2V-6c-6G2">
+                                <rect key="frame" x="20" y="748" width="100" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kry-Ra-Djn">
+                                <rect key="frame" x="20" y="712" width="374" height="29"/>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="1 OR 1"/>
+                                    <segment title="1 AND 1"/>
+                                    <segment title="1 XOR 1"/>
+                                    <segment title="even XOR"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeMore:" destination="BYZ-38-t0r" eventType="valueChanged" id="rf5-la-cQA"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skip where Row and Col:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hfg-rl-zxa">
+                                <rect key="frame" x="20" y="691" width="189" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCr-2b-Nsn">
+                                <rect key="frame" x="30" y="819" width="354" height="43"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="This pattern is downloaded from  ">
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="12" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="www.toptal.com/designers/subtlepatterns/ ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ If you need more, that's where to get'em.</string>
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="12" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="dPP-hj-r4A" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-200" id="1zU-hP-uIF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aCr-2b-Nsn" secondAttribute="trailing" constant="30" id="9tw-8T-WEZ"/>
+                            <constraint firstItem="bbU-kG-vLq" firstAttribute="top" secondItem="A2V-6c-6G2" secondAttribute="bottom" constant="0.5" id="Atf-An-UfP"/>
+                            <constraint firstItem="aCr-2b-Nsn" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="CM8-SS-KZR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dPP-hj-r4A" secondAttribute="trailing" constant="10" id="FPt-9g-MOl"/>
+                            <constraint firstItem="A2V-6c-6G2" firstAttribute="top" secondItem="kry-Ra-Djn" secondAttribute="bottom" constant="8" id="NYd-qA-2Uj"/>
+                            <constraint firstItem="bbU-kG-vLq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Pc3-ZU-XTZ"/>
+                            <constraint firstItem="kry-Ra-Djn" firstAttribute="top" secondItem="Hfg-rl-zxa" secondAttribute="bottom" id="SA2-kY-cms"/>
+                            <constraint firstItem="Hfg-rl-zxa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ZQV-6m-z4G"/>
+                            <constraint firstItem="dPP-hj-r4A" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="bhq-pU-lwR"/>
+                            <constraint firstItem="A2V-6c-6G2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="enp-f5-8CF"/>
+                            <constraint firstItem="kry-Ra-Djn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="fhN-CK-MhM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="dPP-hj-r4A" secondAttribute="top" id="nl2-2x-9AE"/>
+                            <constraint firstItem="aCr-2b-Nsn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="wov-Tu-390"/>
+                            <constraint firstItem="Hfg-rl-zxa" firstAttribute="top" secondItem="dPP-hj-r4A" secondAttribute="bottom" constant="29" id="ypr-Du-Pma"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="grid" destination="dPP-hj-r4A" id="Zeb-hs-H5l"/>
+                        <outlet property="modes" destination="kry-Ra-Djn" id="7jn-le-wKV"/>
+                        <outlet property="slider" destination="bbU-kG-vLq" id="BBH-OR-8fr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="126.5625"/>
+        </scene>
+    </scenes>
+</document>
