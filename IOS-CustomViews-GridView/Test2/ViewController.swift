@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var test = "TEST"
     let themedColor = UIColor(patternImage: UIImage(named: "circuit")!)
     @IBOutlet var grid: GridView!
     @IBOutlet weak var slider: UISlider!
@@ -50,7 +49,7 @@ class ViewController: UIViewController {
         })
     */
     }
-    @IBAction func changeMore(_ sender: UISegmentedControl) {
+    @IBAction func changeMode(_ sender: UISegmentedControl) {
         rebuild(slider)
     }
 }
@@ -68,12 +67,12 @@ final class GridView : UIView {
     /// - Parameter cols: Number of columns in the grid.
     /// - Parameter rows: Number of rows in the grid.
     /// - Parameter handler: Closure returns view for the cell.
-    /// - Note: use **[weak self]** in case referencing owner of the grid in the handler.
-    public var dimensions: GridSetup? { didSet { setupView() } }
+    /// - Note: `dimensions` is set and released at `didSet`. Is it a hack or not?
+    public var dimensions: GridSetup? { didSet { setupView(with: dimensions); dimensions = nil } }
     private var cells: [[UIView?]] = []
 
     override func layoutSubviews() {
-        guard let (rows, cols, _) = dimensions else { return }
+        let (rows, cols) = cells.isEmpty ? (0, 0) : (cells.count, cells.first!.count)
         let newCellSize = CGSize(
             width:bounds.width/CGFloat(cols),
             height:bounds.height/CGFloat(rows))
@@ -101,7 +100,7 @@ final class GridView : UIView {
         }
     }
 
-    private func setupView() {
+    private func setupView(with dimentions: GridSetup? = nil) {
         for view in subviews { view.removeFromSuperview() }
         guard let (rows, cols, handler) = dimensions else { return }
         cells = Array(repeating: Array(repeating: nil, count: cols), count: rows)
