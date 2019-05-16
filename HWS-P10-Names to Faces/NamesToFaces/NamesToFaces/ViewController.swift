@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PersonCellDelegate {
 
     var persons = [Person]()
 
@@ -34,6 +34,11 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
 
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
+
+        picker.sourceType =
+            UIImagePickerController.isSourceTypeAvailable(.camera) ?
+                .camera : .photoLibrary
+        
         picker.allowsEditing = true
         picker.delegate = self
 
@@ -64,9 +69,40 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     }
 
 
-    // MARK: UINavigationControllerDelegate
+    // MARK: PersonCellDelegate
+
+    func didTapPersonCellImageViewAt(person: Person) {
+        if let index = persons.firstIndex(of: person) {
+            let ac = UIAlertController(title: nil, message: "Are you want to forget \(person.name)?", preferredStyle: .alert)
+            let deleteAction = UIAlertAction(title: "Forget", style: .destructive) { action in
+                self.persons.remove(at: index)
+                let indexPath = IndexPath(item: index, section: 0)
+                self.collectionView.deleteItems(at: [indexPath])
+            }
+            ac.addAction(deleteAction)
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            present(ac, animated: true)
+        }
+    }
 
 
+    func didTapPersonCellNameViewAt(person: Person) {
+        if let index = persons.firstIndex(of: person) {
+            let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
+            ac.addTextField()
+
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                guard let newName = ac.textFields?[0].text else { return }
+                person.name = newName
+
+                let indexPath = IndexPath(item: index, section: 0)
+                self.collectionView.reloadItems(at: [indexPath])
+            })
+
+            present(ac, animated: true)
+        }
+    }
     // MARK: CollectionView delegate
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -76,37 +112,15 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: indexPath) as? PersonCell
             else { fatalError("Can't dequeue Person cell!")}
+
         let person = persons[indexPath.item]
-        cell.nameView.text = person.name
+        cell.person = person
+        cell.delegate = self
 
         let url = getDocumentsDirectory().appendingPathComponent(person.image)
         cell.imageView.image = UIImage(contentsOfFile: url.path)
 
-        cell.imageView.contentMode = .scaleToFill
-        cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
-        cell.imageView.layer.borderWidth = 2
-        cell.imageView.layer.cornerRadius = cell.imageView.bounds.maxX / 2
-        cell.layer.cornerRadius = 7
-
         return cell
-    }
-
-
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let person = persons[indexPath.item]
-
-        let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
-        ac.addTextField()
-
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            guard let newName = ac.textFields?[0].text else { return }
-            person.name = newName
-
-            self.collectionView.reloadData()
-        })
-
-        present(ac, animated: true)
     }
 
     // MARK: helpers
