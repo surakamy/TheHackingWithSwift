@@ -30,7 +30,7 @@ class ConnectionView: UIView {
         guard let touch = touches.first else { return }
         let point = touch.location(in: self.superview!)
 
-        center = CGPoint(x: point.x + dragAnchor.x/2, y: point.y + dragAnchor.y/2)
+        center = CGPoint(x: point.x + dragAnchor.x, y: point.y + dragAnchor.y)
         draggedChanged()
     }
 
