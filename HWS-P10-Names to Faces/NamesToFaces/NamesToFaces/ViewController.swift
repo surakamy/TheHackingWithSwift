@@ -28,6 +28,14 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         navigationItem.titleView = toolbar
 
         navigationController?.navigationBar.shadowImage = UIImage()
+
+        let defaults = UserDefaults.standard
+        if let savedPersons = defaults.object(forKey: "persons") as? Data {
+            if let decodedPersons = try? NSKeyedUnarchiver
+                .unarchiveTopLevelObjectWithData(savedPersons) as? [Person] {
+                persons = decodedPersons
+            }
+        }
     }
 
     // MARK:
@@ -78,6 +86,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
                 self.persons.remove(at: index)
                 let indexPath = IndexPath(item: index, section: 0)
                 self.collectionView.deleteItems(at: [indexPath])
+                self.save()
             }
             ac.addAction(deleteAction)
             ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -98,6 +107,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
 
                 let indexPath = IndexPath(item: index, section: 0)
                 self.collectionView.reloadItems(at: [indexPath])
+                self.save()
             })
 
             present(ac, animated: true)
@@ -130,6 +140,16 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         return documentsDirectory
+    }
+
+    func save() {
+        if let savedData = try? NSKeyedArchiver
+            .archivedData(withRootObject: persons, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "persons")
+
+        }
+
     }
 }
 
