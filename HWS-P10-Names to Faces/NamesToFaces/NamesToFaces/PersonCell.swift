@@ -9,18 +9,24 @@
 import UIKit
 
 protocol PersonCellDelegate: class {
-    func didTapPersonCellImageViewAt(person: Person)
-    func didTapPersonCellNameViewAt(person: Person)
+    func didTapPersonCellImageViewAt(person: PersonOnTwitter)
+    func didTapPersonCellNameViewAt(person: PersonOnTwitter)
 }
 
 class PersonCell: UICollectionViewCell {
 
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var nameView: UILabel!
+    @IBOutlet var handlerView: UILabel!
 
-    weak var person: Person? {
+    weak var person: PersonOnTwitter? {
         didSet {
             self.nameView.text = person?.name
+            if let handler = person?.handler {
+                self.handlerView.text = handler.isEmpty ? "" : "@\(handler)"
+            } else {
+                self.handlerView.text = ""
+            }
         }
     }
 
@@ -29,9 +35,14 @@ class PersonCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        contentView.backgroundColor = .white
+
+        nameView.textColor = .darkText
+        handlerView.textColor = .gray
+
         imageView.contentMode = .scaleToFill
-        imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
-        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 5
         imageView.layer.cornerRadius = imageView.bounds.maxX / 2
         layer.cornerRadius = 7
 
@@ -41,6 +52,10 @@ class PersonCell: UICollectionViewCell {
 
         nameView.isUserInteractionEnabled = true
         nameView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(nameTapped(_:))))
+
+        handlerView.isUserInteractionEnabled = true
+        handlerView.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(nameTapped(_:))))
     }
 

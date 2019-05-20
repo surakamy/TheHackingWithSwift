@@ -8,9 +8,13 @@
 
 import UIKit
 
-class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PersonCellDelegate {
+class ViewController: UICollectionViewController,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    PersonCellDelegate
+{
 
-    var persons = [Person]()
+    var persons = [PersonOnTwitter]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +36,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         let defaults = UserDefaults.standard
         if let savedPersons = defaults.object(forKey: "persons") as? Data {
             if let decodedPersons = try? NSKeyedUnarchiver
-                .unarchiveTopLevelObjectWithData(savedPersons) as? [Person] {
+                .unarchiveTopLevelObjectWithData(savedPersons) as? [PersonOnTwitter] {
                 persons = decodedPersons
             }
         }
@@ -68,10 +72,12 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             try? jpegData.write(to: imagePath)
         }
 
-        let person = Person(name: "Unknown", image: imageName)
+        let person = PersonOnTwitter(name: "Unknown", image: imageName, handler: "")
         persons += [person]
 
         collectionView.reloadData()
+
+        save()
 
         dismiss(animated: true)
     }
@@ -79,7 +85,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
 
     // MARK: PersonCellDelegate
 
-    func didTapPersonCellImageViewAt(person: Person) {
+    func didTapPersonCellImageViewAt(person: PersonOnTwitter) {
         if let index = persons.firstIndex(of: person) {
             let ac = UIAlertController(title: nil, message: "Are you want to forget \(person.name)?", preferredStyle: .alert)
             let deleteAction = UIAlertAction(title: "Forget", style: .destructive) { action in
@@ -95,7 +101,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     }
 
 
-    func didTapPersonCellNameViewAt(person: Person) {
+    func didTapPersonCellNameViewAt(person: PersonOnTwitter) {
         if let index = persons.firstIndex(of: person) {
             let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
             ac.addTextField()
@@ -137,19 +143,19 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
 
 
     private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let paths = FileManager
+            .default
+            .urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
 
     func save() {
         if let savedData = try? NSKeyedArchiver
-            .archivedData(withRootObject: persons, requiringSecureCoding: false) {
+            .archivedData(withRootObject: persons, requiringSecureCoding: true) {
             let defaults = UserDefaults.standard
             defaults.set(savedData, forKey: "persons")
-
         }
-
     }
 }
 
