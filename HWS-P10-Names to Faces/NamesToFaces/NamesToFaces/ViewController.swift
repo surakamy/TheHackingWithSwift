@@ -14,6 +14,12 @@ class ViewController: UICollectionViewController,
     PersonCellDelegate
 {
 
+    #if USE_CODABLE
+    let KEY = "persons-with-codable"
+    #else   // NSSecureCoding
+    let KEY = "persons"
+    #endif
+
     var persons = [PersonOnTwitter]()
 
     override func viewDidLoad() {
@@ -33,13 +39,24 @@ class ViewController: UICollectionViewController,
 
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        let defaults = UserDefaults.standard
-        if let savedPersons = defaults.object(forKey: "persons") as? Data {
+
+        #if USE_CODABLE
+        let ud = UserDefaults.standard
+        if let savedPersons = ud.object(forKey: KEY) as? Data {
+            persons = (try? JSONDecoder()
+                .decode([PersonOnTwitter].self,
+                        from: savedPersons))
+                ?? []
+        }
+        #else   // NSSecureCoding
+        let ud = UserDefaults.standard
+        if let savedPersons = ud.object(forKey: KEY) as? Data {
             if let decodedPersons = try? NSKeyedUnarchiver
                 .unarchiveTopLevelObjectWithData(savedPersons) as? [PersonOnTwitter] {
                 persons = decodedPersons
             }
         }
+        #endif
     }
 
     // MARK:
@@ -150,12 +167,29 @@ class ViewController: UICollectionViewController,
         return documentsDirectory
     }
 
+
+    #if USE_CODABLE
+    func save() {
+        let encoder = JSONEncoder()
+        if let data = try? encoder.encode(persons) {
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+            let txt = String(data: data, encoding: .utf8)
+            print(txt)
+            let ud = UserDefaults.standard
+            ud.set(data, forKey: KEY)
+        } else {
+            fatalError("Failed to sabe data!")
+        }
+    }
+    #else   // NSSecureCoding
     func save() {
         if let savedData = try? NSKeyedArchiver
             .archivedData(withRootObject: persons, requiringSecureCoding: true) {
-            let defaults = UserDefaults.standard
-            defaults.set(savedData, forKey: "persons")
+            let ud = UserDefaults.standard
+            ud.set(savedData, forKey: KEY)
+        } else {
+            fatalError("Failed to sabe data!")
         }
     }
+    #endif
 }
-
