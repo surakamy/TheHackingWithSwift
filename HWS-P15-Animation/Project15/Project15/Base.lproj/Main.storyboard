@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Project15" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVH-Hh-iUH">
+                                <rect key="frame" x="346.5" y="938" width="75" height="46"/>
+                                <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="27"/>
+                                <state key="normal" title="JUMP!"/>
+                                <connections>
+                                    <action selector="tapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o4C-S3-cz5"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="taI-jK-D5S">
+                                <rect key="frame" x="528" y="860" width="224" height="144"/>
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="JIy-xo-i4W">
+                                        <rect key="frame" x="-2" y="0.0" width="228" height="31"/>
+                                        <connections>
+                                            <action selector="changeSettings:" destination="BYZ-38-t0r" eventType="valueChanged" id="p73-6f-AWA"/>
+                                        </connections>
+                                    </slider>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="-10" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="zWp-uU-1M3">
+                                        <rect key="frame" x="-2" y="38" width="228" height="31"/>
+                                        <connections>
+                                            <action selector="changeSettings:" destination="BYZ-38-t0r" eventType="valueChanged" id="PYU-Dd-mjm"/>
+                                        </connections>
+                                    </slider>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="-10" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="l2a-E9-4KJ">
+                                        <rect key="frame" x="-2" y="76" width="228" height="31"/>
+                                        <connections>
+                                            <action selector="changeSettings:" destination="BYZ-38-t0r" eventType="valueChanged" id="qMA-lv-joW"/>
+                                        </connections>
+                                    </slider>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="-10" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="EJ4-TQ-sEz">
+                                        <rect key="frame" x="-2" y="114" width="228" height="31"/>
+                                        <connections>
+                                            <action selector="changeSettings:" destination="BYZ-38-t0r" eventType="valueChanged" id="fZ7-Xc-feZ"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="224" id="YyA-lH-D1U"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eVH-Hh-iUH" secondAttribute="bottom" constant="40" id="Ccn-r5-Im0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="taI-jK-D5S" secondAttribute="trailing" constant="16" id="E8J-h5-vG0"/>
+                            <constraint firstItem="eVH-Hh-iUH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GRe-93-sk0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="taI-jK-D5S" secondAttribute="bottom" constant="20" id="kbV-gl-zTq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="angle" destination="JIy-xo-i4W" id="dfT-zV-dk4"/>
+                        <outlet property="x" destination="zWp-uU-1M3" id="FjE-6e-3pq"/>
+                        <outlet property="y" destination="l2a-E9-4KJ" id="sv1-G4-2sQ"/>
+                        <outlet property="z" destination="EJ4-TQ-sEz" id="F3o-p0-Ktc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="26.5625" y="17.578125"/>
+        </scene>
+    </scenes>
+</document>
